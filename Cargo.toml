@@ -1,0 +1,15 @@
+[package]
+name = "card_view"
+version = "0.1.0"
+authors = ["Héctor Ramón Jiménez <hector0193@gmail.com>"]
+edition = "2021"
+publish = false
+
+[dependencies]
+iced = { git = "https://github.com/iced-rs/iced.git", default-features = false, features = [
+    "web-colors",
+    "fira-sans",
+    "advanced",
+    "tokio",
+    "wgpu",
+] }
