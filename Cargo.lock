@@ -47,6 +47,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "aho-corasick"
+version = "1.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8e60d3430d3a69478ad0993f19238d2df97c507009a52b3c10addcd7f6bcb916"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
 name = "allocator-api2"
 version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -78,6 +87,12 @@ name = "android-properties"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc7eb209b1518d6bb87b283c20095f5228ecda460da70b44f0802523dea6da04"
+
+[[package]]
+name = "android-tzdata"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
 
 [[package]]
 name = "android_system_properties"
@@ -265,7 +280,9 @@ dependencies = [
 name = "card_view"
 version = "0.1.0"
 dependencies = [
+ "flexi_logger",
  "iced",
+ "log",
 ]
 
 [[package]]
@@ -295,6 +312,18 @@ name = "cfg_aliases"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fd16c4719339c4530435d38e511904438d07cce7950afa3718a84ac36c10e89e"
+
+[[package]]
+name = "chrono"
+version = "0.4.38"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a21f936df1771bf62b77f047b726c4625ff2e8aa607c01ec06e5a05bd8463401"
+dependencies = [
+ "android-tzdata",
+ "iana-time-zone",
+ "num-traits",
+ "windows-targets 0.52.5",
+]
 
 [[package]]
 name = "clipboard-win"
@@ -554,6 +583,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd2e7510819d6fbf51a5545c8f922716ecfb14df168a3242f7d33e0239efe6a1"
 
 [[package]]
+name = "flexi_logger"
+version = "0.28.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f248c29a6d4bc5d065c9e9068d858761a0dcd796759f7801cc14db35db23abd8"
+dependencies = [
+ "chrono",
+ "glob",
+ "is-terminal",
+ "log",
+ "nu-ansi-term",
+ "regex",
+ "thiserror",
+]
+
+[[package]]
 name = "font-types"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -747,6 +791,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "151665d9be52f9bb40fc7966565d39666f2d1e69233571b71b87791c7e0528b3"
 
 [[package]]
+name = "glob"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
+
+[[package]]
 name = "glow"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -889,9 +939,32 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dfa686283ad6dd069f105e5ab091b04c62850d3e4cf5d67debad1933f55023df"
 
 [[package]]
+name = "iana-time-zone"
+version = "0.1.60"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e7ffbb5a1b541ea2561f8c41c087286cc091e21e556a4f09a8f6cbf17b69b141"
+dependencies = [
+ "android_system_properties",
+ "core-foundation-sys",
+ "iana-time-zone-haiku",
+ "js-sys",
+ "wasm-bindgen",
+ "windows-core",
+]
+
+[[package]]
+name = "iana-time-zone-haiku"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "iced"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "iced_core",
  "iced_futures",
@@ -904,9 +977,10 @@ dependencies = [
 [[package]]
 name = "iced_core"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "bitflags 2.5.0",
+ "bytes",
  "glam",
  "log",
  "num-traits",
@@ -922,7 +996,7 @@ dependencies = [
 [[package]]
 name = "iced_futures"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "futures",
  "iced_core",
@@ -936,7 +1010,7 @@ dependencies = [
 [[package]]
 name = "iced_graphics"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "bitflags 2.5.0",
  "bytemuck",
@@ -955,7 +1029,7 @@ dependencies = [
 [[package]]
 name = "iced_renderer"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "iced_graphics",
  "iced_wgpu",
@@ -966,8 +1040,9 @@ dependencies = [
 [[package]]
 name = "iced_runtime"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
+ "bytes",
  "iced_core",
  "iced_futures",
  "raw-window-handle",
@@ -977,7 +1052,7 @@ dependencies = [
 [[package]]
 name = "iced_wgpu"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "bitflags 2.5.0",
  "bytemuck",
@@ -996,7 +1071,7 @@ dependencies = [
 [[package]]
 name = "iced_widget"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "iced_renderer",
  "iced_runtime",
@@ -1009,7 +1084,7 @@ dependencies = [
 [[package]]
 name = "iced_winit"
 version = "0.13.0-dev"
-source = "git+https://github.com/iced-rs/iced.git#a05b8044a9a82c1802d4d97f1723e24b9d9dad9c"
+source = "git+https://github.com/iced-rs/iced.git?rev=a94984d681875146d7af9f568bf8713503c1ca96#a94984d681875146d7af9f568bf8713503c1ca96"
 dependencies = [
  "iced_graphics",
  "iced_runtime",
@@ -1051,6 +1126,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a5bbe824c507c5da5956355e86a746d82e0e1464f65d862cc5e71da70e94b2c"
 dependencies = [
  "cfg-if",
+]
+
+[[package]]
+name = "is-terminal"
+version = "0.4.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f23ff5ef2b80d608d61efee834934d862cd92461afc0560dedf493e4c033738b"
+dependencies = [
+ "hermit-abi",
+ "libc",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -1286,6 +1372,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8c196769dd60fd4f363e11d948139556a344e79d451aeb2fa2fd040738ef7691"
 dependencies = [
  "jni-sys",
+]
+
+[[package]]
+name = "nu-ansi-term"
+version = "0.49.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c073d3c1930d0751774acf49e66653acecb416c3a54c6ec095a9b11caddb5a68"
+dependencies = [
+ "windows-sys 0.48.0",
 ]
 
 [[package]]
@@ -1697,6 +1792,35 @@ checksum = "4722d768eff46b75989dd134e5c353f0d6296e5aaa3132e776cbdb56be7731aa"
 dependencies = [
  "bitflags 1.3.2",
 ]
+
+[[package]]
+name = "regex"
+version = "1.10.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c117dbdfde9c8308975b6a18d71f3f385c89461f7b3fb054288ecf2a2058ba4c"
+dependencies = [
+ "aho-corasick",
+ "memchr",
+ "regex-automata",
+ "regex-syntax",
+]
+
+[[package]]
+name = "regex-automata"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "86b83b8b9847f9bf95ef68afb0b8e6cdb80f498442f5179a29fad448fcc1eaea"
+dependencies = [
+ "aho-corasick",
+ "memchr",
+ "regex-syntax",
+]
+
+[[package]]
+name = "regex-syntax"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "adad44e29e4c806119491a7f06f03de4d1af22c3a680dd47f1e6e179439d1f56"
 
 [[package]]
 name = "renderdoc-sys"

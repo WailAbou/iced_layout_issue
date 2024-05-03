@@ -1,5 +1,6 @@
+use flexi_logger::{Duplicate, FileSpec, Logger};
 use iced::widget::{button, column, horizontal_space, scrollable, text};
-use iced::{alignment, Background, Border, Color};
+use iced::{alignment, Background, Border, Color, Settings};
 use iced::{
     widget::{container, row},
     Element,
@@ -7,7 +8,19 @@ use iced::{
 use iced::{Alignment, Length};
 
 pub fn main() -> iced::Result {
-    iced::run("Card View Test", TestApp::update, TestApp::view)
+    std::env::set_var("ICED_BACKEND", "tiny-skia");
+    Logger::try_with_env_or_str("Debug")
+        .unwrap()
+        .log_to_file(FileSpec::default().basename("Demo"))
+        .duplicate_to_stdout(Duplicate::All)
+        .start()
+        .unwrap();
+
+    iced::program("Card View Test", TestApp::update, TestApp::view)
+        .settings(Settings {
+            ..Default::default()
+        })
+        .run()
 }
 
 #[derive(Default)]
@@ -20,7 +33,7 @@ impl TestApp {
     fn update(&mut self, _: Message) {}
 
     fn view(&self) -> Element<'_, Message> {
-        scrollable(
+        let content: Element<_> = container(
             column![
                 text("Title").size(50),
                 card_view(
@@ -41,7 +54,8 @@ impl TestApp {
             .padding(20)
             .align_items(Alignment::Center),
         )
-        .into()
+        .into();
+        scrollable(content.explain(Color::BLACK)).into()
     }
 }
 
