@@ -1,5 +1,5 @@
-use flexi_logger::{Duplicate, FileSpec, Logger};
-use iced::widget::{button, column, horizontal_space, scrollable, text};
+use flexi_logger::{Duplicate, Logger};
+use iced::widget::{button, column, horizontal_space, scrollable, stack, text};
 use iced::{alignment, Background, Border, Color, Settings};
 use iced::{
     widget::{container, row},
@@ -8,10 +8,10 @@ use iced::{
 use iced::{Alignment, Length};
 
 pub fn main() -> iced::Result {
-    std::env::set_var("ICED_BACKEND", "tiny-skia");
-    Logger::try_with_env_or_str("Debug")
+    // std::env::set_var("ICED_BACKEND", "tiny-skia");
+    Logger::try_with_env_or_str("Info")
         .unwrap()
-        .log_to_file(FileSpec::default().basename("Demo"))
+        // .log_to_file(flexi_logger::FileSpec::default().basename("Demo"))
         .duplicate_to_stdout(Duplicate::All)
         .start()
         .unwrap();
@@ -48,6 +48,7 @@ impl TestApp {
                     "Title 3",
                     column![row![text("Test3"), horizontal_space(), button("Action")]].into()
                 ),
+                stack_test(),
             ]
             .spacing(20)
             .width(Length::Fill)
@@ -55,8 +56,22 @@ impl TestApp {
             .align_items(Alignment::Center),
         )
         .into();
-        scrollable(content.explain(Color::BLACK)).into()
+        scrollable(content).into()
     }
+}
+
+fn stack_test<'a>() -> Element<'a, Message> {
+    stack([
+        card_view(
+            "Title 4",
+            column![row![text("Test4"), horizontal_space(), button("Action")]].into(),
+        ),
+        card_view(
+            "Title 5",
+            column![row![text("Test5"), horizontal_space(), button("Action")]].into(),
+        ),
+    ])
+    .into()
 }
 
 fn card_view<'a>(title: &str, content: Element<'a, Message>) -> Element<'a, Message> {
